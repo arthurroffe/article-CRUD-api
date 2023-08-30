@@ -1,0 +1,47 @@
+version: '3.9'
+
+services:
+    db:
+        image: postgres:13-alpine
+        volumes:
+            - dev-db-data:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_DB=devdb
+            - POSTGRES_USER=admin
+            - POSTGRES_PASSWORD=admin
+        ports:
+            - "5432:5432"
+
+    app:
+        build:
+            context: .
+        volumes:
+            - ./app:/app
+        ports:
+            - "8000:8000"
+        command: >
+          sh -c  "python manage.py migrate &&
+                 python manage.py initadmin &&
+                 python manage.py runserver 0.0.0.0:8000"
+        environment:
+            - DB_HOST=db
+            - DB_NAME=devdb
+            - DB_USER=admin
+            - DB_PASS=admin
+            - IMAGE_LINK=https://imgur.com/
+            - ARTICLE_LINK=https://en.wikipedia.org/wiki/
+            - ADMIN_USER=admin@admin.com
+            - ADMIN_PASS=admin
+        depends_on:
+            - db
+    
+
+
+
+volumes:
+    dev-db-data:
+
+networks:
+    postnetwork:
+        external: true
+        driver: bridge

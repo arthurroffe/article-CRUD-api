@@ -1,0 +1,16 @@
+asgiref
+attrs
+Django==3.2
+djangorestframework
+drf-spectacular
+inflection
+jsonschema
+jsonschema-specifications
+psycopg2
+pytz
+PyYAML
+referencing
+sqlparse
+tzdata
+uritemplate
+djangorestframework-simplejwt
